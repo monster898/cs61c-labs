@@ -1,4 +1,8 @@
-1.
-2.
-3.
-4.
+mv file_path desired_path
+chmod
+pwd
+ping
+find root_path -name "keyword"
+ps aux
+kill
+diff old_file new_file
