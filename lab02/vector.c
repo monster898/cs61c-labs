@@ -147,18 +147,12 @@ void vector_set(vector_t *v, size_t loc, int value)
     else
     {
         size_t new_size = loc * 2;
-        int *new_data = malloc(sizeof(new_size));
-        if (new_data == NULL)
+        v->size = new_size;
+        v->data = realloc(v->data, new_size * sizeof(int));
+        if (v->data == NULL)
         {
             allocation_failed();
         }
-        new_data[loc] = value;
-        for (int i = 0; i < v->size; i++)
-        {
-            new_data[i] = v->data[i];
-        }
-        free(v->data);
-        v->size = new_size;
-        v->data = new_data;
+        v->data[loc] = value;
     }
 }
