@@ -53,29 +53,30 @@ map:
 
     beq a0, x0, done    # if we were given a null pointer, we're done.
 
-    add s0, a0, x0      # save address of this node in s0
-    add s1, a1, x0      # save address of function in s1
-    add t0, x0, x0      # t0 is a counter
+    add s0, x0, x0      # s0 is a counter
+    add s1, a0, x0      # save address of this node in s0
 
     # remember that each node is 12 bytes long:
     # - 4 for the array pointer
     # - 4 for the size of the array
     # - 4 more for the pointer to the next node
 mapLoop:
-    add t1, s0, x0      # load the address of the array of current node into t1
-    lw t2, 4(s0)        # load the size of the node's array into t2
+    slli t1, s0, 2
+    lw t2, 0(s1)        # load the address of the array of current node into t1
+    add t3, t2, t1      # offset the array address by the count
+    lw a0, 0(t3)        # load the value at that address into a0
 
-    add t1, t1, t0      # offset the array address by the count
-    lw a0, 0(t1)        # load the value at that address into a0
+    jalr a1             # call the function on that value.
 
-    jalr s1             # call the function on that value.
+    slli t1, s0, 2
+    lw t2, 0(s1)        # load the address of the array of current node into t1
+    add t3, t2, t1      # offset the array address by the count
+    sw a0, 0(t3)        # store the returned value back into the array
+    addi s0, s0, 1      # increment the count
+    lw t2, 4(s1) # load the size of the node's array into t2
+    bne s0, t2, mapLoop # repeat if we haven't reached the array size yet
 
-    sw a0, 0(t1)        # store the returned value back into the array
-    addi t0, t0, 1      # increment the count
-    bne t0, t2, mapLoop # repeat if we haven't reached the array size yet
-
-    la a0, 8(s0)        # load the address of the next node into a0
-    lw a1, 0(s1)        # put the address of the function back into a1 to prepare for the recursion
+    lw a0, 8(s1)        # load the address of the next node into a0
 
     jal  map            # recurse
 done:
