@@ -1,22 +1,22 @@
 Exercise 1
 	Scenario 1
-		1. 
-		2.
-		3.
+		1.step size and block size
+		2.0
+		3.[Step Size],[1]、[Block Size],[128] Rep Count and Option
 
 	Scenario 2
-		1.
-		2.
-		3.
+		1.1
+		2.MHHHHHH
+		3.1.0
 		4.
-		5.
+    5.64
 
 	Scenario 3
-		1.
-		2.
-		3.
-		4.
-		5.
+		1.[L1 0.5],[L2 0],[OverAll 0.5]
+		2.[32 of L1 accesses],[16 of L1 misses]
+		3.[16 of L2 accesses],[16 of L2 misses]
+		4.Rep count
+		5.[=,=,+,=]
 
 Exercise 2
 	ijk:
@@ -26,26 +26,36 @@ Exercise 2
 	kij:
 	kji:
 
-	1.
-	2.
-	3.
+	1.[jki],[kji]
+	2.[ijk],[jik]
+  3.Ensure that the innermost loop does not become a factor of the index, which means we don't replace the cache too often. Closer memory access results in higher performance.
 
 Exercise 3
 	Part 1
-		blocksize = 20, n = 100: 
-		blocksize = 20, n = 1000: 
-		blocksize = 20, n = 2000: 
-		blocksize = 20, n = 5000: 
-		blocksize = 20, n = 10000: 
+		blocksize = 20, n = 100: [0.002, 0.001]
+		blocksize = 20, n = 1000: [0.001, 0.001]
+		blocksize = 20, n = 2000: [0.002, 0.002]
+		blocksize = 20, n = 5000: [0.011, 0]
+		blocksize = 20, n = 10000: [0.002, 0.001]
 
-		1.
-		2.
+		1.n is 200 times bigger than blocksize
+		2.Bigger blocksize means we are constantly accessing new values from memory and obtain very little
+    reuse of cached data.
 
 	Part 2
 		blocksize = 50, n = 10000:
+Testing naive transpose: 0.003 milliseconds
+Testing transpose with blocking: 0.002 milliseconds
 		blocksize = 100, n = 10000:
+Testing naive transpose: 0.007 milliseconds
+Testing transpose with blocking: 0.008 milliseconds
 		blocksize = 500, n = 10000:
+Testing naive transpose: 0.204 milliseconds
+Testing transpose with blocking: 0.197 milliseconds
 		blocksize = 1000, n = 10000:
+Testing naive transpose: 0.764 milliseconds
+Testing transpose with blocking: 0.783 milliseconds
 		blocksize = 5000, n = 10000:
-
-		1.
+Testing naive transpose: 139.73 milliseconds
+Testing transpose with blocking: 153.455 milliseconds
+		1.Bigger blocksize results in less perf.Because we are not take advantage of our cache.
