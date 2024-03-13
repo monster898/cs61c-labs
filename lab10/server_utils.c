@@ -269,7 +269,7 @@ void serve_forever(int *socket_number) {
 
          /* YOUR CODE HERE */
          dispatch(client_socket_number);
-
+         exit(EXIT_SUCCESS);
       }
 #else
       dispatch(client_socket_number);
